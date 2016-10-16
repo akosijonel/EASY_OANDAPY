@@ -1,9 +1,25 @@
 # oanda_get_ohlc
 Python Module for obtaining OHLC value from OANDA Restv20 API
 
-get_rates Class
+Installation and Usage:
 
-Returns 
+	Install Request
+
+		pip install requests
+
+	Clone Repository
+
+		https://github.com/akosijonel/oanda_get_ohlc.git
+
+	Import Class
+
+		from OHLC import Ohlc
+
+	Use get_rates Class
+
+
+		Get_Rate = Ohlc("EUR_JPY","2","S15")
+
 
 Parameters:
 	
@@ -24,19 +40,18 @@ Parameters:
 
 Data Available:
 
-	get_rates()["time"][n] = time
-	get_rates()["openBid"][n] = openBid
-	get_rates()["openAsk"][n] = openAsk
-	get_rates()["highBid"][n] = highBid
-	get_rates()["highAsk"][n] = highAsk
-	get_rates()["lowBid"][n] = lowBid
-	get_rates()["lowAsk"][n] = lowAsk
-	get_rates()["closeBid"][n] = closeBid
-	get_rates()["closeAsk"][n] = closeAsk
-	get_rates()["volume"][n] = volume
+	get_rates()["time"][n] = time || Returns String
+	get_rates()["openBid"][n] = openBid || Returns Float
+	get_rates()["openAsk"][n] = openAsk || Returns Float
+	get_rates()["highBid"][n] = highBid || Returns Float
+	get_rates()["highAsk"][n] = highAsk || Returns Float
+	get_rates()["lowBid"][n] = lowBid || Returns Float
+	get_rates()["lowAsk"][n] = lowAsk || Returns Float
+	get_rates()["closeBid"][n] = closeBid || Returns Float
+	get_rates()["closeAsk"][n] = closeAsk || Returns Float
+	get_rates()["volume"][n] = volume || Returns String
 
 Where "n" is the index of the candle. The latest candle information is at the last index.
-
 
 Sample Code:
 
