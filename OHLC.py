@@ -1,6 +1,8 @@
 import requests
 import json
 
+response = {}
+
 class Ohlc:
 	def __init__(self,instrument,count,time):
 		#Instruments - Currency pair <Currency1>_<Currency2>
@@ -9,25 +11,26 @@ class Ohlc:
 		self.instrument = instrument
 		self.count = count
 		self.time = time
+		self.response = {}
+		self.response["raw"] = requests.get('https://api-fxtrade.oanda.com/v1/candles?instrument={}&count={}&candleFormat=bidask&granularity={}'.format(self.instrument,self.count,self.time))
+		self.response["json"] = self.response["raw"].json()
+
 
 	def get_rates(self):
-		response = {}
 		ohlc_values = {}
-		response["raw"] = requests.get('https://api-fxtrade.oanda.com/v1/candles?instrument={}&count={}&candleFormat=bidask&granularity={}'.format(self.instrument,self.count,self.time))
-		response["json"] = response["raw"].json()
-		candle_length = len(response["json"]["candles"])
-		time,openBid,openAsk,highBid,highAsk,lowBid,lowAsk,closeBid,closeAsk,volume = ([] for i in range(10))
+		candle_length = len(self.response["json"]["candles"])
+		time,openBid,openAsk,highBid,highAsk,lowBid,lowAsk,closeBid,closeAsk,volume,AskBody,AskTop,AskBottom,BidBody,BidTop,BidBottom = ([] for i in range(16))
 		for candle_iter in range(candle_length):
-			time.insert(candle_length,response["json"]["candles"][candle_iter]["time"])
-			openBid.insert(candle_length,response["json"]["candles"][candle_iter]["openBid"])
-			openAsk.insert(candle_length,response["json"]["candles"][candle_iter]["openAsk"])
-			highBid.insert(candle_length,response["json"]["candles"][candle_iter]["highBid"])
-			highAsk.insert(candle_length,response["json"]["candles"][candle_iter]["highAsk"])
-			lowBid.insert(candle_length,response["json"]["candles"][candle_iter]["lowBid"])
-			lowAsk.insert(candle_length,response["json"]["candles"][candle_iter]["lowAsk"])
-			closeBid.insert(candle_length,response["json"]["candles"][candle_iter]["closeBid"])
-			closeAsk.insert(candle_length,response["json"]["candles"][candle_iter]["closeAsk"])
-			volume.insert(candle_length,response["json"]["candles"][candle_iter]["volume"])
+			time.insert(candle_length,self.response["json"]["candles"][candle_iter]["time"])
+			openBid.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["openBid"]))
+			openAsk.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["openAsk"]))
+			highBid.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["highBid"]))
+			highAsk.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["highAsk"]))
+			lowBid.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["lowBid"]))
+			lowAsk.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["lowAsk"]))
+			closeBid.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["closeBid"]))
+			closeAsk.insert(candle_length,float(self.response["json"]["candles"][candle_iter]["closeAsk"]))
+			volume.insert(candle_length,int(self.response["json"]["candles"][candle_iter]["volume"]))
 			ohlc_values["time"] = time
 			ohlc_values["openBid"] = openBid
 			ohlc_values["openAsk"] = openAsk
@@ -39,5 +42,6 @@ class Ohlc:
 			ohlc_values["closeAsk"] = closeAsk
 			ohlc_values["volume"] = volume
 		return ohlc_values
-		
+
+
 
