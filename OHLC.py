@@ -1,5 +1,6 @@
 import requests
 import json
+from dateutil import parser
 
 response = {}
 
@@ -22,7 +23,7 @@ class Ohlc:
 		time,openBid,openAsk,highBid,highAsk,lowBid,lowAsk,closeBid,closeAsk,volume,AskBody,AskTop,AskBottom,BidBody,BidTop,BidBottom = ([] for i in range(16))
 		for candle_iter in range(candle_length):
 
-			timeValue = self.response["json"]["candles"][candle_iter]["time"]
+			timeValue = parser.parse(self.response["json"]["candles"][candle_iter]["time"])
 			openBidValue = float(self.response["json"]["candles"][candle_iter]["openBid"])
 			openAskValue = float(self.response["json"]["candles"][candle_iter]["openAsk"])
 			highBidValue = float(self.response["json"]["candles"][candle_iter]["highBid"])
@@ -31,7 +32,7 @@ class Ohlc:
 			lowAskValue = float(self.response["json"]["candles"][candle_iter]["lowAsk"])
 			closeBidValue = float(self.response["json"]["candles"][candle_iter]["closeBid"])
 			closeAskValue = float(self.response["json"]["candles"][candle_iter]["closeAsk"])
-			volumeValue = self.response["json"]["candles"][candle_iter]["volume"]
+			volumeValue = int(self.response["json"]["candles"][candle_iter]["volume"])
 
 			AskBodyValue = self.Pips(openAskValue,closeAskValue,highAskValue,lowAskValue)["body"]
 			AskTopValue = self.Pips(openAskValue,closeAskValue,highAskValue,lowAskValue)["top"]
@@ -98,5 +99,7 @@ class Ohlc:
 			PipValue["bottom"] = (openValue - LowValue) / 0.01
 
 		return PipValue
+
+
 
 
