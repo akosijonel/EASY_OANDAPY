@@ -40,7 +40,7 @@ Parameters:
 
 Data Available:
 
-	get_rates()["time"][n] = time || Returns String
+	get_rates()["time"][n] = time || Returns DateTime
 	get_rates()["openBid"][n] = openBid || Returns Float
 	get_rates()["openAsk"][n] = openAsk || Returns Float
 	get_rates()["highBid"][n] = highBid || Returns Float
@@ -49,7 +49,7 @@ Data Available:
 	get_rates()["lowAsk"][n] = lowAsk || Returns Float
 	get_rates()["closeBid"][n] = closeBid || Returns Float
 	get_rates()["closeAsk"][n] = closeAsk || Returns Float
-	get_rates()["volume"][n] = volume || Returns String
+	get_rates()["volume"][n] = volume || Returns Int
 
 Where "n" is the index of the candle. The latest candle information is at the last index.
 
